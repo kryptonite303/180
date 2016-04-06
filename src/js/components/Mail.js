@@ -13,6 +13,7 @@ export default class Mail extends React.Component {
   	}
 	submit(e) {
 		e.preventDefault();
+		var that = this;
 		var data = {
 			email: this.state.email
 		}
@@ -23,10 +24,17 @@ export default class Mail extends React.Component {
 			data: data
 		})
 		.done(function (data) {
-			setState({message: data});
+			if (data.code == -100) {
+				that.setState({message: "Invalid Email Address"});
+			} else if (data.email) {
+				that.setState({message: `Email sent to: ${data.email}`});
+			} else {
+				that.setState({message: "Unknown error"});
+				console.log(JSON.stringify(data, null, 4));
+			}
 		})
 		.fail(function (err) {
-			setState({message: err});
+			that.setState({message: "err"});
 		});
 	}
 	handleEmailChange(e) {
@@ -37,7 +45,11 @@ export default class Mail extends React.Component {
 			<div>
 				<form onSubmit={this.submit}>
 					email:
-					<input type="text" name="email" onChange={this.handleEmailChange}/>
+					<input type="text" name="email" onChange={this.handleEmailChange}/><br></br>
+					first name:
+					<input type="text" name="firstname" onChange={this.handleEmailChange}/><br></br>
+					last name:
+					<input type="text" name="firstname" onChange={this.handleEmailChange}/><br></br>
 					<input type="submit" value="Submit"/>
 				</form>
 				<p>{this.state.message}</p>
