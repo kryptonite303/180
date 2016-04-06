@@ -2,8 +2,9 @@ import React from "react";
 export default class Header extends React.Component {
 	render() {
 		return (
-			<header>Welcome Home!</header>
+			<div className="full-width">
+				<header>Welcome Home!</header>
+			</div>
 		);
 	}
 }
-
