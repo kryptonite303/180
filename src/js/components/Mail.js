@@ -5,7 +5,8 @@ export default class Mail extends React.Component {
 	constructor(props) {
     	super(props);
     	this.state = {
-    		email: ""
+    		email: "",
+    		message: ""
     	}
     	this.submit = this.submit.bind(this);
     	this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -25,10 +26,10 @@ export default class Mail extends React.Component {
 			data: data
 		})
 		.done(function (data) {
-			console.log(data);
+			setState({message: data});
 		})
 		.fail(function (err) {
-			console.log(err);
+			setState({message: err});
 		});
 	}
 	handleEmailChange(e) {
@@ -42,6 +43,7 @@ export default class Mail extends React.Component {
 					<input type="text" name="email" onChange={this.handleEmailChange}/>
 					<input type="submit" value="Submit"/>
 				</form>
+				<p>{this.state.message}</p>
 			</div>
 		);
 	}
