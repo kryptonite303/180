@@ -10,12 +10,16 @@ export default class Mail extends React.Component {
     	}
     	this.submit = this.submit.bind(this);
     	this.handleEmailChange = this.handleEmailChange.bind(this);
+    	this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    	this.handleLastNameChange = this.handleLastNameChange.bind(this);
   	}
 	submit(e) {
 		e.preventDefault();
 		var that = this;
 		var data = {
-			email: this.state.email
+			email: this.state.email,
+			firstname: this.state.firstname,
+			lastname: this.state.lastname,
 		}
 		var that = this;
 		$.ajax({
@@ -28,6 +32,8 @@ export default class Mail extends React.Component {
 				that.setState({message: "Invalid Email Address"});
 			} else if (data.email) {
 				that.setState({message: `Email sent to: ${data.email}`});
+			} else if (data.code == 11000) {
+				that.setState({message: `Duplicate email address`});
 			} else {
 				that.setState({message: "Unknown error"});
 				console.log(JSON.stringify(data, null, 4));
@@ -40,6 +46,12 @@ export default class Mail extends React.Component {
 	handleEmailChange(e) {
 		this.setState({email: e.target.value});
 	}
+	handleFirstNameChange(e) {
+		this.setState({firstname: e.target.value});
+	}
+	handleLastNameChange(e) {
+		this.setState({lastname: e.target.value});
+	}
 	render() {
 		return (
 			<div>
@@ -47,9 +59,9 @@ export default class Mail extends React.Component {
 					email:
 					<input type="text" name="email" onChange={this.handleEmailChange}/><br></br>
 					first name:
-					<input type="text" name="firstname" onChange={this.handleEmailChange}/><br></br>
+					<input type="text" name="firstname" onChange={this.handleFirstNameChange}/><br></br>
 					last name:
-					<input type="text" name="firstname" onChange={this.handleEmailChange}/><br></br>
+					<input type="text" name="lastname" onChange={this.handleLastNameChange}/><br></br>
 					<input type="submit" value="Submit"/>
 				</form>
 				<p>{this.state.message}</p>
